@@ -8,7 +8,7 @@
 - Use pinned multi-arch base image ghcr.io/home-assistant/base:3.24-2026.08.0
 - Bump CLI version to 5.5.0
 - Adopt the new "app" terminology: renamed hassio.app_stdin action and app selector in blueprint and docs, ha apps CLI command
-- Rename option `exclude_addons` to `exclude_apps` (existing configurations are migrated automatically)
+- Rename option `exclude_addons` to `exclude_apps` (the old key is still honored, please rename it in your configuration)
 - Mask `backup_password` in the configuration UI
 
 ## 5.3.0

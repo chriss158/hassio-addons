@@ -52,7 +52,7 @@ The days on which a backup will be triggered. If `trigger_time` is set to `manua
 
 The slugs of apps to exclude in the backup. This will trigger a partial backup if specified. You can find out the correct slugs by clicking on an installed app and looking at the URL e.g. `core_ssh`.
 
-**Note**: _This option was previously called `exclude_addons`. Existing configurations are migrated automatically on startup._
+**Note**: _This option was previously called `exclude_addons`. The old key is still honored, but please rename it in your configuration._
 
 ### Option: `exclude_folders`
 

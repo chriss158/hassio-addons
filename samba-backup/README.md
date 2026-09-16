@@ -14,7 +14,7 @@ This app lets you automatically create Home Assistant backups and store them on 
 
 ## Installation
 
-1. Navigate in your Home Assistant frontend to **Settings** -> **Apps** -> **App Store** and add this URL as an additional repository: `https://github.com/thomasmauerer/hassio-addons`
+1. Navigate in your Home Assistant frontend to **Settings** -> **Apps** -> **Install app** and add this URL as an additional repository: `https://github.com/thomasmauerer/hassio-addons`
 2. Refresh your browser.
 3. Find the "Samba Backup" app and click the "INSTALL" button.
 4. Configure the app and click on "START".

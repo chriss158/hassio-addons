@@ -24,6 +24,30 @@ declare ALL_SHARES
 
 
 # ------------------------------------------------------------------------------
+# Read exclude_apps, honoring the legacy 'exclude_addons' key.
+#
+# Read-only on purpose: rewriting the options via API would resolve !secret
+# references to plaintext (current Supervisor behavior).
+#
+# Returns the value on stdout
+# ------------------------------------------------------------------------------
+function read-exclude-apps {
+    local value
+    local options
+
+    value=$(bashio::config 'exclude_apps')
+    if [ -z "$value" ]; then
+        options=$(bashio::addon.options)
+        if bashio::jq.exists "${options}" '.exclude_addons'; then
+            bashio::log.warning "Option 'exclude_addons' was renamed to 'exclude_apps'. Please update your configuration."
+            value=$(echo "$options" | jq -r '.exclude_addons[]')
+        fi
+    fi
+
+    echo "$value"
+}
+
+# ------------------------------------------------------------------------------
 # Read and print config.
 # ------------------------------------------------------------------------------
 function get-config {
@@ -31,17 +55,6 @@ function get-config {
     local username
     local password
     local workgroup
-    local options
-
-    # migrate legacy 'exclude_addons' option to 'exclude_apps'
-    options=$(bashio::addon.options)
-    if bashio::jq.exists "${options}" '.exclude_addons'; then
-        bashio::log.info "Migrating option 'exclude_addons' to 'exclude_apps'"
-        if ! bashio::jq.exists "${options}" '.exclude_apps'; then
-            bashio::addon.option 'exclude_apps' "^$(bashio::jq "${options}" '.exclude_addons')"
-        fi
-        bashio::addon.option 'exclude_addons'
-    fi
 
     share=$(bashio::config 'share' | escape-input)
     username=$(bashio::config 'username' | escape-input)
@@ -53,7 +66,7 @@ function get-config {
     KEEP_REMOTE=$(bashio::config 'keep_remote')
     TRIGGER_TIME=$(bashio::config 'trigger_time')
     TRIGGER_DAYS=$(bashio::config 'trigger_days')
-    EXCLUDE_APPS=$(bashio::config 'exclude_apps')
+    EXCLUDE_APPS=$(read-exclude-apps)
     EXCLUDE_FOLDERS=$(bashio::config 'exclude_folders')
     HOST=$(bashio::config 'host' | escape-input)
 
@@ -144,7 +157,7 @@ function overwrite-params {
 # Restore the original backup parameters.
 # ------------------------------------------------------------------------------
 function restore-params {
-    EXCLUDE_APPS=$(bashio::config 'exclude_apps')
+    EXCLUDE_APPS=$(read-exclude-apps)
     EXCLUDE_FOLDERS=$(bashio::config 'exclude_folders')
     bashio::config.exists 'backup_name' && BACKUP_NAME=$(bashio::config 'backup_name') || BACKUP_NAME=""
     bashio::config.exists 'backup_password' && BACKUP_PWD=$(bashio::config 'backup_password') || BACKUP_PWD=""
