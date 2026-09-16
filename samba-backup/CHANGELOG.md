@@ -9,6 +9,7 @@
 - Bump CLI version to 5.5.0
 - Adopt the new "app" terminology: renamed hassio.app_stdin action and app selector in blueprint and docs, ha apps CLI command
 - Rename option `exclude_addons` to `exclude_apps` (existing configurations are migrated automatically)
+- Mask `backup_password` in the configuration UI
 
 ## 5.3.0
 

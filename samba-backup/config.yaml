@@ -56,7 +56,7 @@ schema:
   exclude_folders:
     - str
   backup_name: str?
-  backup_password: str?
+  backup_password: password?
   workgroup: str?
   compatibility_mode: bool?
   skip_precheck: bool?
