@@ -29,9 +29,9 @@ configuration:
   trigger_days:
     name: Trigger dag
     description: Vilka dagar en kopia skall göras.
-  exclude_addons:
-    name: Exkludera tillägg
-    description: En lista på de tillägg som ska exkluderas i en kopia.
+  exclude_apps:
+    name: Exkludera appar
+    description: En lista på de appar som ska exkluderas i en kopia.
   exclude_folders:
     name: Exkludera mappar
     description: En lista på de mappar som ska exkluderas i en kopia.
@@ -52,7 +52,7 @@ configuration:
     description: Wakes up the host system before the backup. The host MAC must be specified for this
   skip_precheck:
     name: Skippa förkontroll
-    description: Starta tillägget utan att kontrollera om utdelningen är korret inställd.
+    description: Starta appen utan att kontrollera om utdelningen är korret inställd.
   log_level:
     name: Loggnivå
     description: Sätter känsligheten på hur mycket information som ska skickas ut i loggen.

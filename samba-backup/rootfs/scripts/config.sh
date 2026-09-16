@@ -8,7 +8,7 @@ declare KEEP_LOCAL
 declare KEEP_REMOTE
 declare TRIGGER_TIME
 declare TRIGGER_DAYS
-declare EXCLUDE_ADDONS
+declare EXCLUDE_APPS
 declare EXCLUDE_FOLDERS
 declare BACKUP_NAME
 declare BACKUP_PWD
@@ -31,6 +31,17 @@ function get-config {
     local username
     local password
     local workgroup
+    local options
+
+    # migrate legacy 'exclude_addons' option to 'exclude_apps'
+    options=$(bashio::addon.options)
+    if bashio::jq.exists "${options}" '.exclude_addons'; then
+        bashio::log.info "Migrating option 'exclude_addons' to 'exclude_apps'"
+        if ! bashio::jq.exists "${options}" '.exclude_apps'; then
+            bashio::addon.option 'exclude_apps' "^$(bashio::jq "${options}" '.exclude_addons')"
+        fi
+        bashio::addon.option 'exclude_addons'
+    fi
 
     share=$(bashio::config 'share' | escape-input)
     username=$(bashio::config 'username' | escape-input)
@@ -42,7 +53,7 @@ function get-config {
     KEEP_REMOTE=$(bashio::config 'keep_remote')
     TRIGGER_TIME=$(bashio::config 'trigger_time')
     TRIGGER_DAYS=$(bashio::config 'trigger_days')
-    EXCLUDE_ADDONS=$(bashio::config 'exclude_addons')
+    EXCLUDE_APPS=$(bashio::config 'exclude_apps')
     EXCLUDE_FOLDERS=$(bashio::config 'exclude_folders')
     HOST=$(bashio::config 'host' | escape-input)
 
@@ -113,8 +124,9 @@ function overwrite-params {
     local name
     local password
 
-    addons=$(echo "$input" | jq '.exclude_addons[]' 2>/dev/null)
-    [[ "$addons" != null  ]] && EXCLUDE_ADDONS="$addons"
+    # legacy 'exclude_addons' key still accepted for existing automations
+    addons=$(echo "$input" | jq '(.exclude_apps // .exclude_addons)[]' 2>/dev/null)
+    [[ "$addons" != null  ]] && EXCLUDE_APPS="$addons"
 
     folders=$(echo "$input" | jq '.exclude_folders[]' 2>/dev/null)
     [[ "$folders" != null  ]] && EXCLUDE_FOLDERS="$folders"
@@ -132,7 +144,7 @@ function overwrite-params {
 # Restore the original backup parameters.
 # ------------------------------------------------------------------------------
 function restore-params {
-    EXCLUDE_ADDONS=$(bashio::config 'exclude_addons')
+    EXCLUDE_APPS=$(bashio::config 'exclude_apps')
     EXCLUDE_FOLDERS=$(bashio::config 'exclude_folders')
     bashio::config.exists 'backup_name' && BACKUP_NAME=$(bashio::config 'backup_name') || BACKUP_NAME=""
     bashio::config.exists 'backup_password' && BACKUP_PWD=$(bashio::config 'backup_password') || BACKUP_PWD=""

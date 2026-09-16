@@ -20,10 +20,10 @@ function create-backup {
     [ -n "$BACKUP_PWD" ] && args+=("--password" "$BACKUP_PWD")
 
     # do we need a partial backup?
-    if [[ -n "$EXCLUDE_ADDONS" || -n "$EXCLUDE_FOLDERS" ]]; then
-        # include all installed addons that are not listed to be excluded
-        addons=$(ha addons --raw-json | jq -rc '.data.addons[] | select (.installed != false) | .slug')
-        for ad in ${addons}; do [[ ! $EXCLUDE_ADDONS =~ $ad ]] && args+=("-a" "$ad"); done
+    if [[ -n "$EXCLUDE_APPS" || -n "$EXCLUDE_FOLDERS" ]]; then
+        # include all installed apps that are not listed to be excluded
+        addons=$(ha apps --raw-json | jq -rc '(.data.apps // .data.addons)[] | select (.installed != false) | .slug')
+        for ad in ${addons}; do [[ ! $EXCLUDE_APPS =~ $ad ]] && args+=("-a" "$ad"); done
 
         # include all folders that are not listed to be excluded
         folders=(homeassistant ssl share addons/local media)

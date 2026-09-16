@@ -3,11 +3,11 @@ blueprint:
   description: Restore Samba Backup sensor on startup
   domain: automation
   input:
-    addon:
-      name: Samba Backup Addon
-      description: Select samba backup addon.
+    app:
+      name: Samba Backup App
+      description: Select the Samba Backup app.
       selector:
-        addon:
+        app:
 
 mode: single
 
@@ -16,7 +16,7 @@ trigger:
     platform: homeassistant
 
 action:
-  - service: hassio.addon_stdin
+  - action: hassio.app_stdin
     data:
-      addon: !input addon
+      app: !input app
       input: restore-sensor

@@ -30,9 +30,9 @@ configuration:
   trigger_days:
     name: Trigger days
     description: De dagen waarop een back-up zal worden getriggerd.
-  exclude_addons:
-    name: Uitsluiten add-ons
-    description: Een lijst met add-ons die moeten worden uitgesloten in de back-up.
+  exclude_apps:
+    name: Uitsluiten apps
+    description: Een lijst met apps die moeten worden uitgesloten in de back-up.
   exclude_folders:
     name: Mappen uitsluiten
     description: Een lijst met mappen die in de back-up moeten worden uitgesloten.
@@ -53,7 +53,7 @@ configuration:
     description: Wakes up the host system before the backup. The host MAC must be specified for this
   skip_precheck:
     name: Skip precheck
-    description: Start de addon zonder enige controle of de share correct is ingesteld.
+    description: Start de app zonder enige controle of de share correct is ingesteld.
   log_level:
     name: Logniveau
     description: Stelt de verbositeit van de loguitvoer in.

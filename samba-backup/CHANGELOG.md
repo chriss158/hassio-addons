@@ -1,5 +1,15 @@
 # Changelog
 
+## 5.4.0
+
+**Breaking**: Support for the armhf, armv7 and i386 architectures has been dropped. Systems on these architectures will stay on 5.3.0.
+
+- Migrate to the new Docker BuildKit based build workflow (build.yaml removed, legacy builder retired)
+- Use pinned multi-arch base image ghcr.io/home-assistant/base:3.24-2026.08.0
+- Bump CLI version to 5.5.0
+- Adopt the new "app" terminology: renamed hassio.app_stdin action and app selector in blueprint and docs, ha apps CLI command
+- Rename option `exclude_addons` to `exclude_apps` (existing configurations are migrated automatically)
+
 ## 5.3.0
 
 - Add wake on LAN option to wake up the host system before copying the backup

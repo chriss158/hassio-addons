@@ -29,9 +29,9 @@ configuration:
   trigger_days:
     name: Sicherungstage
     description: Tage an denen eine Sicherung erstellt wird.
-  exclude_addons:
-    name: Add-ons ausschließen
-    description: Liste an Add-ons, die nicht gesichert werden.
+  exclude_apps:
+    name: Apps ausschließen
+    description: Liste an Apps, die nicht gesichert werden.
   exclude_folders:
     name: Ordner ausschließen
     description: Liste an Ordnern, die nicht gesichert werden.
@@ -52,7 +52,7 @@ configuration:
     description: Weckt das Hostsystem vor der Sicherung auf. Die Host MAC muss dafür angegeben sein
   skip_precheck:
     name: Checks überspringen
-    description: Startet das Add-on ohne Checks ob die Samba Freigabe korrekt eingerichtet wurde.
+    description: Startet die App ohne Checks ob die Samba Freigabe korrekt eingerichtet wurde.
   log_level:
     name: Log Level
-    description: Steuert wie viele Log Einträge das Add-on schreibt.
+    description: Steuert wie viele Log Einträge die App schreibt.

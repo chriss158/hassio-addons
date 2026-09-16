@@ -15,7 +15,7 @@ function generate-backup-name {
     if [ -n "$BACKUP_NAME" ]; then
         # get all values
         theversion=$(ha core info --raw-json | jq -r .data.version)
-        [[ -n "$EXCLUDE_ADDONS" || -n "$EXCLUDE_FOLDERS" ]] && thetype="Partial" || thetype="Full"
+        [[ -n "$EXCLUDE_APPS" || -n "$EXCLUDE_FOLDERS" ]] && thetype="Partial" || thetype="Full"
         thedate=$(date +'%Y-%m-%d %H:%M')
 
         # replace the string patterns with the real values

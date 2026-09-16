@@ -36,7 +36,7 @@ function run-backup {
 get-config
 get-sensor
 
-# run precheck and exit entire addon in case the check fails
+# run precheck and exit entire app in case the check fails
 if [ "$SKIP_PRECHECK" = true ]; then
     update-sensor "${SAMBA_STATUS[0]}"
 elif ! smb-precheck; then
